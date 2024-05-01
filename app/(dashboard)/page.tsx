@@ -1,5 +1,12 @@
-import { GetFormStats } from "@/actions/form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GetFormStats, GetForms } from "@/actions/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ReactNode, Suspense } from "react";
 import { LuView } from "react-icons/lu";
@@ -8,8 +15,17 @@ import { TbArrowBounce } from "react-icons/tb";
 import { HiCursorClick } from "react-icons/hi";
 import { Separator } from "@/components/ui/separator";
 import CreateFormBtn from "@/components/CreateFormBtn";
+import { Form } from "@prisma/client";
+import { Badge } from "@/components/ui/badge";
+import { formatDistance } from "date-fns";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { BiRightArrowAlt } from "react-icons/bi";
+import { FaEdit } from "react-icons/fa";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const forms = await GetForms();
+
   return (
     <div className="container p-4">
       <Suspense fallback={<StatsCards loading={true} />}>
@@ -18,7 +34,16 @@ export default function HomePage() {
       <Separator className="my-6" />
       <h2 className="text-4xl font-bold col-span-2">Your Forms</h2>
       <Separator className="my-6" />
-      <CreateFormBtn />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <CreateFormBtn />
+        <Suspense
+          fallback={forms.map((el) => (
+            <FormCardSkeleton key={el.id} />
+          ))}
+        >
+          <FormCards />
+        </Suspense>
+      </div>
     </div>
   );
 }
@@ -114,6 +139,74 @@ function StatsCard({
         </div>
         <p className="text-xs text-muted-foreground pt-1">{helperText}</p>
       </CardContent>
+    </Card>
+  );
+}
+
+function FormCardSkeleton() {
+  return <Skeleton className="border-2 border-primary/20 h-[190px] w-full" />;
+}
+
+async function FormCards() {
+  const forms = await GetForms();
+
+  return (
+    <>
+      {forms.map((form) => (
+        <FormCard key={form.id} form={form} />
+      ))}
+    </>
+  );
+}
+
+function FormCard({ form }: { form: Form }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex justify-between items-center gap-2">
+          <span className="truncate font-bold">{form.name}</span>
+          {form.published ? (
+            <Badge>Published</Badge>
+          ) : (
+            <Badge variant="destructive">Draft</Badge>
+          )}
+        </CardTitle>
+        <CardDescription>
+          {formatDistance(form.createdAt, new Date(), { addSuffix: true })}
+          {form.published && (
+            <span className="flex items-center gap-2">
+              <LuView className="text-muted-foreground" />
+              <span>{form.visits.toLocaleString()}</span>
+              <FaWpforms className="text-muted-foreground" />
+              <span>{form.submissions.toLocaleString()}</span>
+            </span>
+          )}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="h-[20px] truncate text-sm text-muted-foreground">
+        {form.description || "No description"}
+      </CardContent>
+
+      <CardFooter>
+        {form.published ? (
+          <Button asChild className="w-full text-md mt-2 gap-4">
+            <Link href={`/form/${form.id}`}>
+              View submissions <BiRightArrowAlt />
+            </Link>
+          </Button>
+        ) : (
+          <Button
+            variant={"secondary"}
+            asChild
+            className="w-full text-md mt-2 gap-4"
+          >
+            <Link href={`/builder/${form.id}`}>
+              Edit <FaEdit />
+            </Link>
+          </Button>
+        )}
+      </CardFooter>
     </Card>
   );
 }
