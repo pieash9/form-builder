@@ -20,14 +20,15 @@ import { Button } from "./ui/button";
 import { BiSolidTrash } from "react-icons/bi";
 
 const Designer = () => {
-  const { addElement, elements } = useDesigner();
+  const { addElement, elements, selectedElement, setSelectedElement } =
+    useDesigner();
   const droppable = useDroppable({
     id: "designer-drop-area",
     data: {
       isDesignerDropArea: true,
     },
   });
-  console.log({ elements });
+
   useDndMonitor({
     onDragEnd: (event: DragEndEvent) => {
       const { active, over } = event;
@@ -45,7 +46,12 @@ const Designer = () => {
   });
   return (
     <div className="flex size-full">
-      <div className="w-full p-4">
+      <div
+        className="w-full p-4"
+        onClick={() => {
+          if (selectedElement) setSelectedElement(null);
+        }}
+      >
         <div
           ref={droppable.setNodeRef}
           className={cn(
@@ -81,7 +87,7 @@ const Designer = () => {
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
-  const { removeElement } = useDesigner();
+  const { removeElement, selectedElement, setSelectedElement } = useDesigner();
 
   const topHalf = useDroppable({
     id: `${element.id}-top`,
@@ -119,6 +125,10 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
       className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset "
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedElement(element);
+      }}
     >
       <div
         ref={topHalf.setNodeRef}
@@ -134,7 +144,10 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
             <Button
               className="h-full flex justify-center rounded-l-none rounded-md bg-red-500"
               variant="outline"
-              onClick={() => removeElement(element.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                removeElement(element.id);
+              }}
             >
               <BiSolidTrash className="size-6" />
             </Button>
