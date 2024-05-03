@@ -52,7 +52,7 @@ export const TextFieldFormElement: FormElement = {
     label: "Text Field",
   },
   designerComponent: DesignerComponent,
-  formComponent: () => <div>Form Component</div>,
+  formComponent: FormComponent,
   propertiesComponent: PropertiesComponent,
 };
 
@@ -61,6 +61,47 @@ type CustomInstance = FormElementInstance & {
 };
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
+
+function DesignerComponent({
+  elementInstance,
+}: {
+  elementInstance: FormElementInstance;
+}) {
+  const elements = elementInstance as CustomInstance;
+  const { label, required, placeholder, helperText } = elements.extraAttributes;
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <Label>
+        {label}
+        {required && <span className="text-red-500"> * </span>}
+      </Label>
+      <Input readOnly disabled placeholder={placeholder} />
+      {helperText && (
+        <p className="text-xs text-muted-foreground">{helperText}</p>
+      )}
+    </div>
+  );
+}
+function FormComponent({
+  elementInstance,
+}: {
+  elementInstance: FormElementInstance;
+}) {
+  const elements = elementInstance as CustomInstance;
+  const { label, required, placeholder, helperText } = elements.extraAttributes;
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <Label>
+        {label}
+        {required && <span className="text-red-500"> * </span>}
+      </Label>
+      <Input placeholder={placeholder} />
+      {helperText && (
+        <p className="text-xs text-muted-foreground">{helperText}</p>
+      )}
+    </div>
+  );
+}
 
 function PropertiesComponent({
   elementInstance,
@@ -202,26 +243,5 @@ function PropertiesComponent({
         />
       </form>
     </Form>
-  );
-}
-
-function DesignerComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
-  const elements = elementInstance as CustomInstance;
-  const { label, required, placeholder, helperText } = elements.extraAttributes;
-  return (
-    <div className="flex flex-col gap-2 w-full">
-      <Label>
-        {label}
-        {required && <span className="text-red-500"> * </span>}
-      </Label>
-      <Input readOnly disabled placeholder={placeholder} />
-      {helperText && (
-        <p className="text-xs text-muted-foreground">{helperText}</p>
-      )}
-    </div>
   );
 }
