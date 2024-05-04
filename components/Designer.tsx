@@ -142,7 +142,7 @@ const Designer = () => {
           )}
         >
           {!droppable.isOver && elements.length === 0 && (
-            <p className="text-3xl text-muted-foreground flew flex-grow items-center font-bold">
+            <p className="text-3xl  text-muted-foreground flex flex-grow items-center justify-center font-bold">
               Drop here
             </p>
           )}
