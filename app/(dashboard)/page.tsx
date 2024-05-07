@@ -103,7 +103,7 @@ function StatsCards(props: StatsCardProps) {
   );
 }
 
-function StatsCard({
+export function StatsCard({
   title,
   icons,
   helperText,
@@ -191,7 +191,7 @@ function FormCard({ form }: { form: Form }) {
       <CardFooter>
         {form.published ? (
           <Button asChild className="w-full text-md mt-2 gap-4">
-            <Link href={`/form/${form.id}`}>
+            <Link href={`/forms/${form.id}`}>
               View submissions <BiRightArrowAlt />
             </Link>
           </Button>
