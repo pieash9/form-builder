@@ -22,8 +22,15 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { FaEdit } from "react-icons/fa";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function HomePage() {
+  const { userId } = auth();
+
+  if (!userId) {
+    return redirect("/sign-in");
+  }
   const forms = await GetForms();
 
   return (
