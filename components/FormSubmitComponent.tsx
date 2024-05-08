@@ -95,7 +95,7 @@ const FormSubmitComponent = ({
               submitValue={submitValue}
               key={element.id}
               elementInstance={element}
-              isValid={formErrors.current[element.id]}
+              isInvalid={formErrors.current[element.id]}
               defaultValue={formValues.current[element.id]}
             />
           );
