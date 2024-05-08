@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Form-builder
 
-## Getting Started
+## Description
 
-First, run the development server:
+This is a full-stack application built with Next.js, TypeScript, React DnD,Shadcn, Tailwind CSS, Prisma, and PostgreSQL. It empowers users to:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Login:** Securely authenticate using Clerk.
+- **Create Forms** (Drag-and-Drop): Leverage React DnD for an intuitive form-building experience.
+- **Share Form Links:** Easily distribute forms to others for data collection.
+- **Collect Submissions:** Effectively gather data through shared forms.
+- **View Stats:** Gain valuable insights from submitted data.
+- **Get Submitted Results:** Access and analyze form responses.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Frontend:
+    - Next.js: Server-side rendering framework for a performant and SEO-friendly experience.
+    - TypeScript: Enhances code maintainability and type safety.
+    - React DnD: Enables interactive drag-and-drop functionality for form creation.
+    - Shadcn: UI library.
+    - Tailwind CSS: Utility-first CSS framework for rapid styling.
+- Backend:
+    - Prisma: ORM (Object-Relational Mapper) for streamlined database interactions.
+    - PostgreSQL: Robust relational database for data storage.
+- Authentication:
+    - Clerk: Streamlined user authentication and authorization.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Installation
 
-## Learn More
+1. Clone the repository:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   git clone [https://github.com/](https://github.com/pieash9/form-builder)
+   ```
